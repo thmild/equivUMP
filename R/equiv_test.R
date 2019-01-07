@@ -112,7 +112,7 @@ equiv.test.default <-
                  estimate = estimate, null.value = equivint,
                  alternative = alternative,
                  method = method, data.name = dname)
-    class(rval) <- "htest" # TO DO
+    class(rval) <- "htest"
     return(rval)
   }
 

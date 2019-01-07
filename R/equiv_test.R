@@ -1,7 +1,34 @@
-# equiv.test is modelled after R's t.test() and intended to work as similarly as possible.
-
+#' Equivalence tests for one- and two-sample problems
+#'
+#' Implementation of uniformly most powerful invariant equivalence tests for one- and two-sample problems (paired and unpaired).
+#' Basically a variant of a t-test with (relaxed) null and alternative hypotheses exchanged.
+#' \code{equiv.test} is modelled after R's \code{t.test()} and intended to work as similarly as possible.
+#'
+#' Some details go here
+#'
+#' @param x a (non-empty) numeric vector of data values.
+#' @param y an optional (non-empty) numeric vector of data values.
+#' @param alternative	a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less". You can specify just the initial letter.
+#' @param eps a single strictly positive number giving the equivalence limits.
+#' @param mu a number indicating the true value of the mean (or difference in means if you are performing a two sample test).
+#' @param paired a logical indicating whether you want a paired t-test.
+#' @param formula a formula of the form lhs ~ rhs where lhs is a numeric variable giving the data values and rhs a factor with two levels giving the corresponding groups.
+#' @param data an optional matrix or data frame (or similar: see model.frame) containing the variables in the formula formula. By default the variables are taken from environment(formula).
+#' @param subset an optional vector specifying a subset of observations to be used.
+#' @param na.action a function which indicates what should happen when the data contain NAs. Defaults to getOption("na.action").
+#' @param ... further arguments to be passed to or from methods.
+#' @return A list with class "htest" containing the following components:
+#'     \item{statistic}{the value of the t-statistic.}
+#'     \item{parameter}{the degrees of freedom for the t-statistic.}
+#'     \item{p.value}{the p-value for the test.}
+#'     \item{estimate}{the estimated mean or difference in means depending on whether it was a one-sample test or a two-sample test.}
+#'     \item{null.value}{equivalence limits}
+#'     \item{alternative}{a character string describing the alternative hypothesis.}
+#'     \item{method}{a character string indicating what type of equivalence test was performed.}
+#'     \item{data.name}{a character string giving the name(s) of the data.}
 equiv.test <- function(x, ...) UseMethod("equiv.test")
 
+#' @describeIn equiv.test Default S3 method:
 equiv.test.default <-
   function(x, y = NULL, alternative = c("two.sided", "less", "greater"),
            eps = 1, mu = 0, paired = FALSE,
@@ -116,6 +143,7 @@ equiv.test.default <-
     return(rval)
   }
 
+#' @describeIn equiv.test S3 method for class 'formula'
 equiv.test.formula <-
   function(formula, data, subset, na.action, ...)
   {

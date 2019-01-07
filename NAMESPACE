@@ -1,1 +1,5 @@
+importFrom("stats", "complete.cases", "pf", "pt", "setNames", "terms",
+               "var")
 exportPattern("^[[:alpha:]]+")
+S3method(equiv.test, default)
+S3method(equiv.test, formula)

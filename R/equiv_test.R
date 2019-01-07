@@ -1,6 +1,7 @@
-#' Equivalence tests for one- and two-sample problems
+#' Equivalence and non-inferiority tests for one- and two-sample problems
 #'
 #' Implementation of uniformly most powerful invariant equivalence tests for one- and two-sample problems (paired and unpaired).
+#' Also one-sided alternatives (non-inferiority and non-superiority tests) are supported.
 #' Basically a variant of a t-test with (relaxed) null and alternative hypotheses exchanged.
 #' \code{equiv.test} is modelled after R's \code{t.test()} and intended to work as similarly as possible.
 #'
@@ -130,7 +131,7 @@ equiv.test.default <-
         alternative <- "non-superiority"
         equivint <- c(-Inf, eps)
         names(equivint) <- c("lower", "upper")
-        method <- if(paired) "Two sample non-superiority test"
+        method <- "Two sample non-superiority test"
       }
       else if (alternative == "greater") { # non-inferiority
         ncp <- sqrt(nx * ny) * eps / sqrt(nx + ny)

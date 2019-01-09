@@ -4,7 +4,7 @@
 \alias{equiv.test}
 \alias{equiv.test.default}
 \alias{equiv.test.formula}
-\title{Equivalence tests for one- and two-sample problems}
+\title{Equivalence and non-inferiority tests for one- and two-sample problems}
 \usage{
 equiv.test(x, ...)
 
@@ -49,6 +49,7 @@ A list with class "htest" containing the following components:
 }
 \description{
 Implementation of uniformly most powerful invariant equivalence tests for one- and two-sample problems (paired and unpaired).
+Also one-sided alternatives (non-inferiority and non-superiority tests) are supported.
 Basically a variant of a t-test with (relaxed) null and alternative hypotheses exchanged.
 \code{equiv.test} is modelled after R's \code{t.test()} and intended to work as similarly as possible.
 }
@@ -62,3 +63,7 @@ Some details go here
 \item \code{formula}: S3 method for class 'formula'
 }}
 
+\references{
+Wellek, S. (2010). Testing Statistical Hypotheses of Equivalence an Noniferiority. Second edition.  Boca Raton: Chapman & Hall.
+  (especially Chapters 5.3 and 6.1).
+}

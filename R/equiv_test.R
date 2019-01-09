@@ -27,6 +27,9 @@
 #'     \item{alternative}{a character string describing the alternative hypothesis.}
 #'     \item{method}{a character string indicating what type of equivalence test was performed.}
 #'     \item{data.name}{a character string giving the name(s) of the data.}
+#' @references Wellek, S. (2010). Testing Statistical Hypotheses of Equivalence an Noniferiority. Second edition.  Boca Raton: Chapman & Hall.
+#'   (especially Chapters 5.3 and 6.1).
+#'
 equiv.test <- function(x, ...) UseMethod("equiv.test")
 
 #' @describeIn equiv.test Default S3 method:

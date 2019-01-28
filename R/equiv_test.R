@@ -80,6 +80,7 @@ equiv.test.default <-
     if(is.null(y)) {
       if(nx < 2) stop("not enough 'x' observations")
       df <- nx-1
+      ncp <- sqrt(nx) * eps
       stderr <- sqrt(vx/nx)
       if(stderr < 10 *.Machine$double.eps * abs(mx))
         stop("data are essentially constant")
@@ -87,27 +88,21 @@ equiv.test.default <-
       estimate <-
         setNames(mx, if(paired)"mean of the differences" else "mean of x")
       if (alternative == "less") { # non-superiority
-        ncp <- sqrt(nx) * eps
         pval <- pt(tstat, df, ncp = -ncp)
         alternative <- "non-superiority"
         equivint <- c(-Inf, eps)
-        names(equivint) <- c("lower", "upper")
         method <- if(paired) "Paired non-superiority test" else "One Sample non-superiority test"
       }
       else if (alternative == "greater") { # non-inferiority
-        ncp <- sqrt(nx) * eps
         pval <- pt(tstat, df, ncp = -ncp, lower.tail = FALSE)
         alternative <- "non-inferiority"
         equivint <- c(-eps, Inf)
-        names(equivint) <- c("lower", "upper")
         method <- if(paired) "Paired non-inferiority test" else "One Sample non-inferiority test"
       }
       else {  # actual (two-sided) equivalence test, on sample or paired samples
-        ncp <- sqrt(nx) * eps
         pval <- pf(tstat^2, df1 = 1, df2 = df, ncp = ncp^2)
         alternative <- "equivalence"
         equivint <- c(-eps, eps)
-        names(equivint) <- c("lower", "upper")
         method <- if(paired) "Paired equivalence test" else "One Sample equivalence test"
       }
     } else { # here we are in the unpaired two-sample case
@@ -128,8 +123,8 @@ equiv.test.default <-
       if(stderr < 10 *.Machine$double.eps * max(abs(mx), abs(my)))
         stop("data are essentially constant")
       tstat <- (mx - my - mu)/stderr
+      ncp <- sqrt(nx * ny) * eps / sqrt(nx + ny)
       if (alternative == "less") { # non-superiority
-        ncp <- sqrt(nx * ny) * eps / sqrt(nx + ny)
         pval <- pt(tstat, df, ncp = -ncp)
         alternative <- "non-superiority"
         equivint <- c(-Inf, eps)
@@ -137,22 +132,19 @@ equiv.test.default <-
         method <- "Two sample non-superiority test"
       }
       else if (alternative == "greater") { # non-inferiority
-        ncp <- sqrt(nx * ny) * eps / sqrt(nx + ny)
         pval <- pt(tstat, df, ncp = -ncp, lower.tail = FALSE)
         alternative <- "non-inferiority"
         equivint <- c(-eps, Inf)
-        names(equivint) <- c("lower", "upper")
         method <- "Two sample non-inferiority test"
       }
       else {  # actual (two-sided) equivalence test
-        ncp <- sqrt(nx * ny) * eps / sqrt(nx + ny)
         pval <- pf(tstat^2, df1 = 1, df2 = df, ncp = ncp^2)
         alternative <- "equivalence"
         equivint <- c(-eps, eps)
-        names(equivint) <- c("lower", "upper")
         method <- "Two sample equivalence test"
       }
     }
+    names(equivint) <- c("lower", "upper")
     names(tstat) <- "t"
     params <- c(df, ncp)
     names(params) <- c("df", "ncp")

@@ -51,10 +51,46 @@ A list with class "htest" containing the following components:
 Implementation of uniformly most powerful invariant equivalence tests for one- and two-sample problems (paired and unpaired).
 Also one-sided alternatives (non-inferiority and non-superiority tests) are supported.
 Basically a variant of a t-test with (relaxed) null and alternative hypotheses exchanged.
-\code{equiv.test} is modelled after R's \code{t.test()} and intended to work as similarly as possible.
 }
 \details{
-Some details go here
+\code{equiv.test} is modelled after R's \code{t.test()} and intended to work as similarly as possible.
+
+This functions implements uniformly most powerful invariant equivalence tests for one-sample and (paired
+or unpaired) two-sample problems. Also supported are one-sided versions (so-called non-inferiority or
+non-superiority tests).
+
+All tests are on standardized (differences of) means \eqn{theta}:
+\deqn{theta = (mu_x - mu) / sigma}
+for the one-sample case,
+\deqn{theta = (mu_diff - mu) / sigma_diff}
+for the paired two-sample case and
+\deqn{theta = (mu_x - mu_y - mu) / sigma}
+for the unpaired test, where \eqn{sigma} is the standard deviation of \eqn{x} and \eqn{y} and
+\eqn{sigma_diff} is the standard deviation of the differences. \eqn{mu} is a shift parameter that can
+be used to compare against a known value in the one-sample case. \eqn{mu} should usually be zero for
+two-sample problems.
+
+The null and alternative hypotheses in equivalence tests (\code{alternative = "two.sided"}) are
+\deqn{H0: theta <= -eps or theta >= eps}
+vs
+\deqn{H1: -eps < theta < eps}
+
+Currently, only symmetric equivalence intervals \eqn{(-eps, eps)} are supported.
+
+In the non-inferority-case (\code{alternative = "greater"}) we test
+\deqn{H0: theta <= -eps}
+vs
+\deqn{H1: theta > -eps}
+
+In the non-superiority-case (\code{alternative = "less"}) we test
+\deqn{H0: theta >= eps}
+vs
+\deqn{H1: theta < eps}
+
+If paired is TRUE then both x and y must be specified and they must be the same length.
+Missing values are silently removed (in pairs if paired is TRUE).
+
+The formula interface is only applicable for the two-sample tests.
 }
 \section{Methods (by class)}{
 \itemize{
@@ -69,6 +105,7 @@ Some details go here
   chickwts2 <- chickwts[chickwts$feed \%in\% c("linseed", "soybean"),]
   chickwts2$feed <- droplevels(chickwts2$feed)
 
+  # similar but cannot be shown to be equivalent up to 0.5 sigma at 0.05 level^
   plot(weight ~ feed, data = chickwts2)
   equiv.test(weight ~ feed, data = chickwts2, eps = 0.5)
 }

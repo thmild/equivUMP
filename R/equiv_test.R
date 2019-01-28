@@ -29,7 +29,15 @@
 #'     \item{data.name}{a character string giving the name(s) of the data.}
 #' @references Wellek, S. (2010). Testing Statistical Hypotheses of Equivalence and Noniferiority. Second edition.  Boca Raton: Chapman & Hall.
 #'   (especially Chapters 5.3 and 6.1).
+#' @examples
+#'   # compare two feed from chickwts dataset
+#'   data("chickwts")
+#'   chickwts2 <- chickwts[chickwts$feed %in% c("linseed", "soybean"),]
+#'   chickwts2$feed <- droplevels(chickwts2$feed)
 #'
+#'   # similar but cannot be shown to be equivalent up to 0.5 sigma at 0.05 level^
+#'   plot(weight ~ feed, data = chickwts2)
+#'   equiv.test(weight ~ feed, data = chickwts2, eps = 0.5)
 equiv.test <- function(x, ...) UseMethod("equiv.test")
 
 #' @describeIn equiv.test Default S3 method:

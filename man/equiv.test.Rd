@@ -63,7 +63,16 @@ Some details go here
 \item \code{formula}: S3 method for class 'formula'
 }}
 
+\examples{
+  # compare two feed from chickwts dataset
+  data("chickwts")
+  chickwts2 <- chickwts[chickwts$feed \%in\% c("linseed", "soybean"),]
+  chickwts2$feed <- droplevels(chickwts2$feed)
+
+  plot(weight ~ feed, data = chickwts2)
+  equiv.test(weight ~ feed, data = chickwts2, eps = 0.5)
+}
 \references{
-Wellek, S. (2010). Testing Statistical Hypotheses of Equivalence an Noniferiority. Second edition.  Boca Raton: Chapman & Hall.
+Wellek, S. (2010). Testing Statistical Hypotheses of Equivalence and Noniferiority. Second edition.  Boca Raton: Chapman & Hall.
   (especially Chapters 5.3 and 6.1).
 }

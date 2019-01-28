@@ -103,8 +103,8 @@ equiv.test.default <-
         method <- if(paired) "Paired non-inferiority test" else "One Sample non-inferiority test"
       }
       else {  # actual (two-sided) equivalence test, on sample or paired samples
-        ncp <- nx * eps^2
-        pval <- pf(tstat^2, df1 = 1, df2 = df, ncp = ncp)
+        ncp <- sqrt(nx) * eps
+        pval <- pf(tstat^2, df1 = 1, df2 = df, ncp = ncp^2)
         alternative <- "equivalence"
         equivint <- c(-eps, eps)
         names(equivint) <- c("lower", "upper")
@@ -121,10 +121,10 @@ equiv.test.default <-
       method <- "Two sample equivalence test" # only true if alternative is two.sided
       estimate <- c(mx,my)
       names(estimate) <- c("mean of x","mean of y")
-      df <- nx+ny-2
-      v <- (nx-1)*vx + (ny-1)*vy
-      v <- v/df
-        stderr <- sqrt(v*(1/nx+1/ny))
+      df <- nx + ny - 2
+      v <- (nx - 1) * vx + (ny - 1) * vy
+      v <- v / df
+        stderr <- sqrt(v * (1 / nx + 1 / ny))
       if(stderr < 10 *.Machine$double.eps * max(abs(mx), abs(my)))
         stop("data are essentially constant")
       tstat <- (mx - my - mu)/stderr
@@ -145,8 +145,8 @@ equiv.test.default <-
         method <- "Two sample non-inferiority test"
       }
       else {  # actual (two-sided) equivalence test
-        ncp <- nx * ny * eps^2 / (nx + ny)
-        pval <- pf(tstat^2, df1 = 1, df2 = df, ncp = ncp)
+        ncp <- sqrt(nx * ny) * eps / sqrt(nx + ny)
+        pval <- pf(tstat^2, df1 = 1, df2 = df, ncp = ncp^2)
         alternative <- "equivalence"
         equivint <- c(-eps, eps)
         names(equivint) <- c("lower", "upper")
@@ -154,9 +154,10 @@ equiv.test.default <-
       }
     }
     names(tstat) <- "t"
-    names(df) <- "df"
+    params <- c(df, ncp)
+    names(params) <- c("df", "ncp")
 #    names(mu) <- if(paired || !is.null(y)) "difference in means" else "mean"
-    rval <- list(statistic = tstat, parameter = df, p.value = pval,
+    rval <- list(statistic = tstat, parameter = params, p.value = pval,
                  estimate = estimate, null.value = equivint,
                  alternative = alternative,
                  method = method, data.name = dname)

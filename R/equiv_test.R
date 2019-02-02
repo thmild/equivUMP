@@ -115,7 +115,7 @@ equiv.test.default <-
     }
     x <- x[xok]
     if (paired) {
-      x <- x-y
+      x <- x - y
       y <- NULL
     }
     nx <- length(x)
@@ -123,14 +123,14 @@ equiv.test.default <-
     vx <- var(x)
     if(is.null(y)) {
       if(nx < 2) stop("not enough 'x' observations")
-      df <- nx-1
+      df <- nx - 1
       ncp <- sqrt(nx) * eps
-      stderr <- sqrt(vx/nx)
+      stderr <- sqrt(vx / nx)
       if(stderr < 10 *.Machine$double.eps * abs(mx))
         stop("data are essentially constant")
-      tstat <- (mx-mu)/stderr
-      estimate <-
-        setNames(mx, if(paired)"mean of the differences" else "mean of x")
+      tstat <- (mx - mu)/stderr
+      d <- (mx - mu) / sqrt(vx)
+      estimate <- setNames(d, "d")
       if (alternative == "less") { # non-superiority
         pval <- pt(tstat, df, ncp = -ncp)
         alternative <- "non-superiority"
@@ -167,6 +167,8 @@ equiv.test.default <-
       if(stderr < 10 *.Machine$double.eps * max(abs(mx), abs(my)))
         stop("data are essentially constant")
       tstat <- (mx - my - mu)/stderr
+      d <- (mx - my - mu) / sqrt(v)
+      estimate <- setNames(d, "d")
       ncp <- sqrt(nx * ny) * eps / sqrt(nx + ny)
       if (alternative == "less") { # non-superiority
         pval <- pt(tstat, df, ncp = -ncp)
@@ -192,7 +194,6 @@ equiv.test.default <-
     names(tstat) <- "t"
     params <- c(df, ncp)
     names(params) <- c("df", "ncp")
-#    names(mu) <- if(paired || !is.null(y)) "difference in means" else "mean"
     rval <- list(statistic = tstat, parameter = params, p.value = pval,
                  estimate = estimate, null.value = equivint,
                  alternative = alternative,

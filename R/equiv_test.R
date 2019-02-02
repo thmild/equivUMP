@@ -58,7 +58,8 @@
 #'     \item{statistic}{the value of the t-statistic.}
 #'     \item{parameter}{the degrees of freedom for the t-statistic.}
 #'     \item{p.value}{the p-value for the test.}
-#'     \item{estimate}{the estimated mean or difference in means depending on whether it was a one-sample test or a two-sample test.}
+#'     \item{estimate}{the plug-in estimate of the standardized mean (or mean difference), i.e. the empirical mean
+#'     (or difference of empirical means) divided by the empirical standard deviation. Note that this estimate is not unbiaded.}
 #'     \item{null.value}{equivalence limits}
 #'     \item{alternative}{a character string describing the alternative hypothesis.}
 #'     \item{method}{a character string indicating what type of equivalence test was performed.}

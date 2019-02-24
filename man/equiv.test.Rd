@@ -63,11 +63,11 @@ non-superiority tests).
 All tests are on standardized (differences of) means \eqn{theta}:
 \deqn{theta = (mu_x - mu) / sigma}
 for the one-sample case,
-\deqn{theta = (mu_{diff} - mu) / sigma_{diff}}
+\deqn{theta = (mu_d - mu) / sigma_d}
 for the paired two-sample case and
 \deqn{theta = (mu_x - mu_y - mu) / sigma}
 for the unpaired test, where \eqn{sigma} is the standard deviation of \eqn{x} and \eqn{y} and
-\eqn{sigma_{diff}} is the standard deviation of the differences. \eqn{mu} is a shift parameter that can
+\eqn{sigma_d} is the standard deviation of the differences. \eqn{mu} is a shift parameter that can
 be used to compare against a known value in the one-sample case. \eqn{mu} should usually be zero for
 two-sample problems.
 

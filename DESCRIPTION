@@ -3,7 +3,11 @@ Type: Package
 Title: Uniformly Most Powerful Invariant Tests of Equivalence
 Version: 0.0.0.9008
 Authors@R: person("Thoralf", "Mildenberger", email = "mild@zhaw.ch", role = c("aut", "cre"))
-Description: Uniformly Most Powerful Invariant Tests of Equivalence.
+Description: Implementation of uniformly most powerful invariant equivalence
+    tests for one- and two-sample problems (paired and unpaired). Also
+    one-sided alternatives (non-inferiority and non-superiority tests) are
+    supported. Basically a variant of a t-test with (relaxed) null and
+    alternative hypotheses exchanged.
 License: GPL (>=2)
 Encoding: UTF-8
 LazyData: true

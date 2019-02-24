@@ -20,24 +20,24 @@ equiv.test(x, ...)
 
 \item{y}{an optional (non-empty) numeric vector of data values.}
 
-\item{alternative}{a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less". You can specify just the initial letter.}
+\item{alternative}{a character string specifying the alternative hypothesis, must be one of "\code{two.sided}" (default), "\code{greater}" or "\code{less}". You can specify just the initial letter.}
 
 \item{eps}{a single strictly positive number giving the equivalence limits.}
 
 \item{mu}{a number indicating the true value of the mean (or difference in means if you are performing a two sample test).}
 
-\item{paired}{a logical indicating whether you want a paired t-test.}
+\item{paired}{a logical indicating whether you want a paired equivalence test in the two-sample case.}
 
-\item{formula}{a formula of the form lhs ~ rhs where lhs is a numeric variable giving the data values and rhs a factor with two levels giving the corresponding groups.}
+\item{formula}{a formula of the form \code{lhs ~ rhs} where \code{lhs} is a numeric variable giving the data values and \code{rhs} a factor with two levels giving the corresponding groups.}
 
-\item{data}{an optional matrix or data frame (or similar: see model.frame) containing the variables in the formula formula. By default the variables are taken from environment(formula).}
+\item{data}{an optional matrix or data frame containing the variables in the formula \code{formula}. By default the variables are taken from \code{environment(formula)}.}
 
 \item{subset}{an optional vector specifying a subset of observations to be used.}
 
-\item{na.action}{a function which indicates what should happen when the data contain NAs. Defaults to getOption("na.action").}
+\item{na.action}{a function which indicates what should happen when the data contain NAs. Defaults to \code{getOption("na.action")}.}
 }
 \value{
-A list with class "htest" containing the following components:
+A list with class \code{htest} containing the following components:
     \item{statistic}{the value of the t-statistic.}
     \item{parameter}{the degrees of freedom for the t-statistic.}
     \item{p.value}{the p-value for the test.}
@@ -54,7 +54,7 @@ Also one-sided alternatives (non-inferiority and non-superiority tests) are supp
 Basically a variant of a t-test with (relaxed) null and alternative hypotheses exchanged.
 }
 \details{
-\code{equiv.test} is modelled after R's \code{t.test()} and intended to work as similarly as possible.
+\code{equiv.test} is modelled after (and borrows code from) R's \code{t.test()} and is intended to work as similarly as possible.
 
 This functions implements uniformly most powerful invariant equivalence tests for one-sample and (paired
 or unpaired) two-sample problems. Also supported are one-sided versions (so-called non-inferiority or
@@ -72,7 +72,7 @@ be used to compare against a known value in the one-sample case. \eqn{mu} should
 two-sample problems.
 
 The null and alternative hypotheses in equivalence tests (\code{alternative = "two.sided"}) are
-\deqn{H_0: theta <= -eps or theta >= eps}
+\deqn{H_0: theta <= -eps \qquad or \qquad theta >= eps}
 vs
 \deqn{H_1: -eps < theta < eps}
 
@@ -88,8 +88,8 @@ In the non-superiority-case (\code{alternative = "less"}) we test
 vs
 \deqn{H_1: theta < eps}
 
-If paired is TRUE then both x and y must be specified and they must be the same length.
-Missing values are silently removed (in pairs if paired is TRUE).
+If paired is \code{TRUE} then both \code{x} and \code{y} must be specified and they must be the same length.
+Missing values are silently removed (in pairs if paired is \code{TRUE}).
 
 The formula interface is only applicable for the two-sample tests.
 }

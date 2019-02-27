@@ -1,7 +1,7 @@
 Package: equivUMP
 Type: Package
 Title: Uniformly Most Powerful Invariant Tests of Equivalence
-Version: 0.0.0.9008
+Version: 0.0.0.9009
 Authors@R: person("Thoralf", "Mildenberger", email = "mild@zhaw.ch", role = c("aut", "cre"))
 Description: Implementation of uniformly most powerful invariant equivalence
     tests for one- and two-sample problems (paired and unpaired). Also

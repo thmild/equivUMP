@@ -144,7 +144,7 @@ equiv.test.default <-
         equivint <- c(-eps, Inf)
         method <- if(paired) "Paired non-inferiority test" else "One Sample non-inferiority test"
       }
-      else {  # actual (two-sided) equivalence test, on sample or paired samples
+      else {  # actual (two-sided) equivalence test, one sample or paired samples
         pval <- pf(tstat^2, df1 = 1, df2 = df, ncp = ncp^2)
         alternative <- "equivalence"
         equivint <- c(-eps, eps)
@@ -158,21 +158,18 @@ equiv.test.default <-
         stop("not enough 'y' observations")
       my <- mean(y)
       vy <- var(y)
-      method <- "Two sample equivalence test" # only true if alternative is two.sided
-      estimate <- c(mx,my)
-      names(estimate) <- c("mean of x","mean of y")
       df <- nx + ny - 2
       v <- (nx - 1) * vx + (ny - 1) * vy
       v <- v / df
         stderr <- sqrt(v * (1 / nx + 1 / ny))
       if(stderr < 10 *.Machine$double.eps * max(abs(mx), abs(my)))
         stop("data are essentially constant")
-      tstat <- (mx - my - mu)/stderr
+      tstat <- (mx - my - mu)/stderr  # same as formula (6.5) in Wellek (2010)
       d <- (mx - my - mu) / sqrt(v)
       estimate <- setNames(d, "d")
       ncp <- sqrt(nx * ny) * eps / sqrt(nx + ny)
       if (alternative == "less") { # non-superiority
-        pval <- pt(tstat, df, ncp = -ncp)
+        pval <- pt(tstat, df, ncp = ncp)
         alternative <- "non-superiority"
         equivint <- c(-Inf, eps)
         names(equivint) <- c("lower", "upper")

@@ -20,28 +20,29 @@ equiv.test(x, ...)
 
 \item{y}{an optional (non-empty) numeric vector of data values.}
 
-\item{alternative}{a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less". You can specify just the initial letter.}
+\item{alternative}{a character string specifying the alternative hypothesis, must be one of "\code{two.sided}" (default), "\code{greater}" or "\code{less}". You can specify just the initial letter.}
 
 \item{eps}{a single strictly positive number giving the equivalence limits.}
 
 \item{mu}{a number indicating the true value of the mean (or difference in means if you are performing a two sample test).}
 
-\item{paired}{a logical indicating whether you want a paired t-test.}
+\item{paired}{a logical indicating whether you want a paired equivalence test in the two-sample case.}
 
-\item{formula}{a formula of the form lhs ~ rhs where lhs is a numeric variable giving the data values and rhs a factor with two levels giving the corresponding groups.}
+\item{formula}{a formula of the form \code{lhs ~ rhs} where \code{lhs} is a numeric variable giving the data values and \code{rhs} a factor with two levels giving the corresponding groups.}
 
-\item{data}{an optional matrix or data frame (or similar: see model.frame) containing the variables in the formula formula. By default the variables are taken from environment(formula).}
+\item{data}{an optional matrix or data frame containing the variables in the formula \code{formula}. By default the variables are taken from \code{environment(formula)}.}
 
 \item{subset}{an optional vector specifying a subset of observations to be used.}
 
-\item{na.action}{a function which indicates what should happen when the data contain NAs. Defaults to getOption("na.action").}
+\item{na.action}{a function which indicates what should happen when the data contain NAs. Defaults to \code{getOption("na.action")}.}
 }
 \value{
-A list with class "htest" containing the following components:
+A list with class \code{htest} containing the following components:
     \item{statistic}{the value of the t-statistic.}
     \item{parameter}{the degrees of freedom for the t-statistic.}
     \item{p.value}{the p-value for the test.}
-    \item{estimate}{the estimated mean or difference in means depending on whether it was a one-sample test or a two-sample test.}
+    \item{estimate}{the plug-in estimate of the standardized mean (or mean difference), i.e. the empirical mean
+    (or difference of empirical means) divided by the empirical standard deviation. Note that this estimate is not unbiaded.}
     \item{null.value}{equivalence limits}
     \item{alternative}{a character string describing the alternative hypothesis.}
     \item{method}{a character string indicating what type of equivalence test was performed.}
@@ -51,10 +52,46 @@ A list with class "htest" containing the following components:
 Implementation of uniformly most powerful invariant equivalence tests for one- and two-sample problems (paired and unpaired).
 Also one-sided alternatives (non-inferiority and non-superiority tests) are supported.
 Basically a variant of a t-test with (relaxed) null and alternative hypotheses exchanged.
-\code{equiv.test} is modelled after R's \code{t.test()} and intended to work as similarly as possible.
 }
 \details{
-Some details go here
+\code{equiv.test} is modelled after (and borrows code from) R's \code{t.test()} and is intended to work as similarly as possible.
+
+This functions implements uniformly most powerful invariant equivalence tests for one-sample and (paired
+or unpaired) two-sample problems. Also supported are one-sided versions (so-called non-inferiority or
+non-superiority tests).
+
+All tests are on standardized (differences of) means \eqn{theta}:
+\deqn{theta = (mu_x - mu) / sigma}
+for the one-sample case,
+\deqn{theta = (mu_d - mu) / sigma_d}
+for the paired two-sample case and
+\deqn{theta = (mu_x - mu_y - mu) / sigma}
+for the unpaired test, where \eqn{sigma} is the standard deviation of \eqn{x} and \eqn{y} and
+\eqn{sigma_d} is the standard deviation of the differences. \eqn{mu} is a shift parameter that can
+be used to compare against a known value in the one-sample case. \eqn{mu} should usually be zero for
+two-sample problems.
+
+The null and alternative hypotheses in equivalence tests (\code{alternative = "two.sided"}) are
+\deqn{H_0: theta <= -eps \qquad or \qquad theta >= eps}
+vs
+\deqn{H_1: -eps < theta < eps}
+
+Currently, only symmetric equivalence intervals \eqn{(-eps, eps)} are supported.
+
+In the non-inferority-case (\code{alternative = "greater"}) we test
+\deqn{H_0: theta <= -eps}
+vs
+\deqn{H_1: theta > -eps}
+
+In the non-superiority-case (\code{alternative = "less"}) we test
+\deqn{H_0: theta >= eps}
+vs
+\deqn{H_1: theta < eps}
+
+If paired is \code{TRUE} then both \code{x} and \code{y} must be specified and they must be the same length.
+Missing values are silently removed (in pairs if paired is \code{TRUE}).
+
+The formula interface is only applicable for the two-sample tests.
 }
 \section{Methods (by class)}{
 \itemize{
@@ -63,7 +100,17 @@ Some details go here
 \item \code{formula}: S3 method for class 'formula'
 }}
 
+\examples{
+  # compare two feed from chickwts dataset
+  data("chickwts")
+  chickwts2 <- chickwts[chickwts$feed \%in\% c("linseed", "soybean"),]
+  chickwts2$feed <- droplevels(chickwts2$feed)
+
+  # similar but cannot be shown to be equivalent up to 0.5 sigma at 0.05 level^
+  plot(weight ~ feed, data = chickwts2)
+  equiv.test(weight ~ feed, data = chickwts2, eps = 0.5)
+}
 \references{
-Wellek, S. (2010). Testing Statistical Hypotheses of Equivalence an Noniferiority. Second edition.  Boca Raton: Chapman & Hall.
+Wellek, S. (2010). Testing Statistical Hypotheses of Equivalence and Noniferiority. Second edition.  Boca Raton: Chapman & Hall.
   (especially Chapters 5.3 and 6.1).
 }

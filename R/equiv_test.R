@@ -38,8 +38,8 @@
 #' vs
 #' \deqn{H_1: theta < eps}
 #'
-#' If paired is \code{TRUE} then both \code{x} and \code{y} must be specified and they must be the same length.
-#' Missing values are silently removed (in pairs if paired is \code{TRUE}).
+#' If \code{paired} is \code{TRUE} then both \code{x} and \code{y} must be specified and they must be the same length.
+#' Missing values are silently removed (in pairs if \code{paired} is \code{TRUE}).
 #'
 #' The formula interface is only applicable for the two-sample tests.
 #'
@@ -60,7 +60,7 @@
 #'     \item{p.value}{the p-value for the test.}
 #'     \item{estimate}{the plug-in estimate of the standardized mean (or mean difference), i.e. the empirical mean
 #'     (or difference of empirical means) divided by the empirical standard deviation. Note that this estimate is not unbiaded.}
-#'     \item{null.value}{equivalence limits}
+#'     \item{null.value}{non-equivalence limits, i.e. boundaries of null hypothesis}
 #'     \item{alternative}{a character string describing the alternative hypothesis.}
 #'     \item{method}{a character string indicating what type of equivalence test was performed.}
 #'     \item{data.name}{a character string giving the name(s) of the data.}
@@ -136,18 +136,22 @@ equiv.test.default <-
         pval <- pt(tstat, df, ncp = ncp)
         alternative <- "non-superiority"
         equivint <- c(eps, Inf)
+        names(equivint) <- c("lower", "upper")
         method <- if(paired) "Paired non-superiority test" else "One Sample non-superiority test"
       }
       else if (alternative == "greater") { # non-inferiority
         pval <- pt(tstat, df, ncp = -ncp, lower.tail = FALSE)
         alternative <- "non-inferiority"
         equivint <- c(-Inf, -eps)
+        names(equivint) <- c("lower", "upper")
         method <- if(paired) "Paired non-inferiority test" else "One Sample non-inferiority test"
       }
       else {  # actual (two-sided) equivalence test, one sample or paired samples
         pval <- pf(tstat^2, df1 = 1, df2 = df, ncp = ncp^2)
         alternative <- "equivalence"
-        equivint <- c(-eps, eps)
+        equivint <- rbind(c(-Inf, -eps),
+                          c(eps, Inf))
+        dimnames(equivint)[[2]] <- c("lower", "upper")
         method <- if(paired) "Paired equivalence test" else "One Sample equivalence test"
       }
     } else { # here we are in the unpaired two-sample case
@@ -172,22 +176,25 @@ equiv.test.default <-
         pval <- pt(tstat, df, ncp = ncp)
         alternative <- "non-superiority"
         equivint <- c(eps, Inf)
+        names(equivint) <- c("lower", "upper")
         method <- "Two sample non-superiority test"
       }
       else if (alternative == "greater") { # non-inferiority
         pval <- pt(tstat, df, ncp = -ncp, lower.tail = FALSE)
         alternative <- "non-inferiority"
         equivint <- c(-Inf, -eps)
+        names(equivint) <- c("lower", "upper")
         method <- "Two sample non-inferiority test"
       }
       else {  # actual (two-sided) equivalence test
         pval <- pf(tstat^2, df1 = 1, df2 = df, ncp = ncp^2)
         alternative <- "equivalence"
-        equivint <- c(-eps, eps)
+        equivint <- rbind(c(-Inf, -eps),
+                          c(eps, Inf))
+        dimnames(equivint)[[2]] <- c("lower", "upper")
         method <- "Two sample equivalence test"
       }
     }
-    names(equivint) <- c("lower", "upper")
     names(tstat) <- "t"
     params <- c(df, ncp)
     names(params) <- c("df", "ncp")

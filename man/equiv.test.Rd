@@ -43,7 +43,7 @@ A list with class \code{htest} containing the following components:
     \item{p.value}{the p-value for the test.}
     \item{estimate}{the plug-in estimate of the standardized mean (or mean difference), i.e. the empirical mean
     (or difference of empirical means) divided by the empirical standard deviation. Note that this estimate is not unbiaded.}
-    \item{null.value}{equivalence limits}
+    \item{null.value}{non-equivalence limits, i.e. boundaries of null hypothesis}
     \item{alternative}{a character string describing the alternative hypothesis.}
     \item{method}{a character string indicating what type of equivalence test was performed.}
     \item{data.name}{a character string giving the name(s) of the data.}
@@ -88,8 +88,8 @@ In the non-superiority-case (\code{alternative = "less"}) we test
 vs
 \deqn{H_1: theta < eps}
 
-If paired is \code{TRUE} then both \code{x} and \code{y} must be specified and they must be the same length.
-Missing values are silently removed (in pairs if paired is \code{TRUE}).
+If \code{paired} is \code{TRUE} then both \code{x} and \code{y} must be specified and they must be the same length.
+Missing values are silently removed (in pairs if \code{paired} is \code{TRUE}).
 
 The formula interface is only applicable for the two-sample tests.
 }

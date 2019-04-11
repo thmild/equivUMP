@@ -172,7 +172,6 @@ equiv.test.default <-
         pval <- pt(tstat, df, ncp = ncp)
         alternative <- "non-superiority"
         equivint <- c(eps, Inf)
-        names(equivint) <- c("lower", "upper")
         method <- "Two sample non-superiority test"
       }
       else if (alternative == "greater") { # non-inferiority

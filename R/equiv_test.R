@@ -133,15 +133,15 @@ equiv.test.default <-
       d <- (mx - mu) / sqrt(vx)
       estimate <- setNames(d, "d")
       if (alternative == "less") { # non-superiority
-        pval <- pt(tstat, df, ncp = -ncp)
+        pval <- pt(tstat, df, ncp = ncp)
         alternative <- "non-superiority"
-        equivint <- c(-Inf, eps)
+        equivint <- c(-eps, Inf)
         method <- if(paired) "Paired non-superiority test" else "One Sample non-superiority test"
       }
       else if (alternative == "greater") { # non-inferiority
         pval <- pt(tstat, df, ncp = -ncp, lower.tail = FALSE)
         alternative <- "non-inferiority"
-        equivint <- c(-eps, Inf)
+        equivint <- c(-Inf, eps)
         method <- if(paired) "Paired non-inferiority test" else "One Sample non-inferiority test"
       }
       else {  # actual (two-sided) equivalence test, one sample or paired samples
@@ -171,14 +171,14 @@ equiv.test.default <-
       if (alternative == "less") { # non-superiority
         pval <- pt(tstat, df, ncp = ncp)
         alternative <- "non-superiority"
-        equivint <- c(-Inf, eps)
+        equivint <- c(eps, Inf)
         names(equivint) <- c("lower", "upper")
         method <- "Two sample non-superiority test"
       }
       else if (alternative == "greater") { # non-inferiority
         pval <- pt(tstat, df, ncp = -ncp, lower.tail = FALSE)
         alternative <- "non-inferiority"
-        equivint <- c(-eps, Inf)
+        equivint <- c(Inf, eps)
         method <- "Two sample non-inferiority test"
       }
       else {  # actual (two-sided) equivalence test

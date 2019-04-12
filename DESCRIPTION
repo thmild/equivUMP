@@ -1,13 +1,13 @@
 Package: equivUMP
 Type: Package
 Title: Uniformly Most Powerful Invariant Tests of Equivalence
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: person("Thoralf", "Mildenberger", email = "mild@zhaw.ch", role = c("aut", "cre"))
 Description: Implementation of uniformly most powerful invariant equivalence
-    tests for one- and two-sample problems (paired and unpaired). Also
-    one-sided alternatives (non-inferiority and non-superiority tests) are
-    supported. Basically a variant of a t-test with (relaxed) null and
-    alternative hypotheses exchanged.
+    tests for one- and two-sample problems (paired and unpaired) as described 
+    in Wellek (2010, ISBN:978-1-4398-0818-4). Also one-sided alternatives 
+    (non-inferiority and non-superiority tests) are supported. Basically a variant 
+    of a t-test with (relaxed) null and alternative hypotheses exchanged.
 License: GPL (>=2)
 URL: https://github.com/thmild/equivUMP
 BugReports: https://github.com/thmild/equivUMP/issues
